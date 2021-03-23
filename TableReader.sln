@@ -13,23 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasOilService", "GasOilServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasOil.Generators", "GasOil.Generators\GasOil.Generators.csproj", "{9952C092-FC08-47A7-B4C2-2BFF03161E64}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Примеры исходных таблиц", "Примеры исходных таблиц", "{45A51F03-7134-4879-9C31-15438D11BA4F}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\10 - Спецтехника\CergMet\Листы\profnastil.xls = ..\..\10 - Спецтехника\CergMet\Листы\profnastil.xls
-		..\..\10 - Спецтехника\CergMet\Листы\Ареал.xls = ..\..\10 - Спецтехника\CergMet\Листы\Ареал.xls
-		..\..\10 - Спецтехника\CergMet\Листы\ВестМеркет.xls = ..\..\10 - Спецтехника\CergMet\Листы\ВестМеркет.xls
-		..\..\10 - Спецтехника\CergMet\Листы\Дипос.xls = ..\..\10 - Спецтехника\CergMet\Листы\Дипос.xls
-		..\..\10 - Спецтехника\CergMet\Листы\Металлсервис.xls = ..\..\10 - Спецтехника\CergMet\Листы\Металлсервис.xls
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Примеры обработки", "Примеры обработки", "{E0D35605-48C5-4A27-9D42-D96BAF43E7A1}"
-	ProjectSection(SolutionItems) = preProject
-		..\TR-Release\Result\res_profnastil.xls = ..\TR-Release\Result\res_profnastil.xls
-		..\TR-Release\Result\res_sortovojprokat.xls = ..\TR-Release\Result\res_sortovojprokat.xls
-		..\TR-Release\Result\res_Ареал.xls = ..\TR-Release\Result\res_Ареал.xls
-		..\TR-Release\Result\res_Металлсервис.xls = ..\TR-Release\Result\res_Металлсервис.xls
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
