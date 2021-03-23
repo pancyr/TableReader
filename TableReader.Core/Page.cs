@@ -375,7 +375,8 @@ namespace TableReader.Core
                 if (italic) MakeCellItalic(CurrentRow, key);
                 if (underline) MakeCellUnderline(CurrentRow, key);
             }
-            CurrentRow++;
+            if (values.Count > 0)
+                CurrentRow++;
             return true;
         }
 

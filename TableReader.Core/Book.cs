@@ -84,7 +84,7 @@ namespace TableReader.Core
         public void Save(string savePath)
         {
             _excelBook.Sheets[1].Select();
-            _excelBook.SaveAs(savePath, XlFileFormat.xlWorkbookNormal, Type.Missing,
+            _excelBook.SaveAs(savePath, XlFileFormat.xlWorkbookDefault, Type.Missing,
                 Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlShared,
                 Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }

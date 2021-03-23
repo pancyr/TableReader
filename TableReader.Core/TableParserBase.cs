@@ -76,12 +76,7 @@ namespace TableReader.Core
         protected void OnSetProgressValue(Page page)
         {
             if (SetProgressValue != null)
-            {
-                double row = page.CurrentRow;
-                double allRows = page.TotalRows;
-                double percent = row / allRows * 100;
-                SetProgressValue((int)percent);
-            }
+                SetProgressValue(page.CurrentRow);
         }
 
         #endregion

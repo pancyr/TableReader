@@ -32,6 +32,7 @@ namespace TableReader.Win
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.lblPageCount = new System.Windows.Forms.Label();
+            this.lblPagePos = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar
@@ -53,13 +54,22 @@ namespace TableReader.Win
             // 
             // lblPageCount
             // 
-            this.lblPageCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPageCount.Location = new System.Drawing.Point(12, 48);
+            this.lblPageCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPageCount.Location = new System.Drawing.Point(12, 16);
             this.lblPageCount.Name = "lblPageCount";
             this.lblPageCount.Size = new System.Drawing.Size(440, 23);
             this.lblPageCount.TabIndex = 2;
             this.lblPageCount.Text = "label1";
             this.lblPageCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPagePos
+            // 
+            this.lblPagePos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPagePos.Location = new System.Drawing.Point(12, 43);
+            this.lblPagePos.Name = "lblPagePos";
+            this.lblPagePos.Size = new System.Drawing.Size(440, 18);
+            this.lblPagePos.TabIndex = 3;
+            this.lblPagePos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ProgressDialog
             // 
@@ -67,6 +77,7 @@ namespace TableReader.Win
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 171);
             this.ControlBox = false;
+            this.Controls.Add(this.lblPagePos);
             this.Controls.Add(this.lblPageCount);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.progressBar);
@@ -85,5 +96,6 @@ namespace TableReader.Win
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label lblPageCount;
+        private System.Windows.Forms.Label lblPagePos;
     }
 }

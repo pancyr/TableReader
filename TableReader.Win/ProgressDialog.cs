@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TableReader.Core;
 
 namespace TableReader.Win
 {
@@ -20,6 +21,10 @@ namespace TableReader.Win
             this.formMain = form;
         }
 
+        public Book CurrentBook { get; set; }
+        public Page CurrentPage { get; set; }
+        public int PageNum { get; set; }
+
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             this.formMain.CancelPocessing();
@@ -32,14 +37,13 @@ namespace TableReader.Win
             this.progressBar.Value = 0;
         }
 
-        public void SetSheetCaption(int currentSheet, int totalSheet)
+        public void SetProgressParams(int currentRow)
         {
-            this.lblPageCount.Text = String.Format("Лист {0} из {1}", currentSheet, totalSheet);
-        }
-
-        public void SetWorkBookTitle(string wBookName)
-        {
-            this.Text = "Книга: " + wBookName;
+            this.Text = "Книга: " + CurrentBook.Name;
+            this.lblPageCount.Text = String.Format("Лист {0} из {1}", PageNum, CurrentBook.Pages.Count);
+            this.lblPagePos.Text = String.Format("Обработка строки {0} из {1}", currentRow, CurrentPage.TotalRows);
+            double percent = (double)currentRow / CurrentPage.TotalRows * 100;
+            progressBar.Value = (int)percent;
         }
     }
 }

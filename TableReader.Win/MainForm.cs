@@ -14,10 +14,6 @@ namespace TableReader.Win
 {
     public partial class MainForm : Form
     {
-        private string currentFileName;
-        private int currentPageNum;
-        private int totalPages;
-
         private ProgressDialog formDialog;
 
         public BackgroundWorker PriceProcess
@@ -65,7 +61,7 @@ namespace TableReader.Win
             OpenFileDialog openDialog = new OpenFileDialog();
 
             openDialog.InitialDirectory = Application.StartupPath;
-            openDialog.Filter = "Excel 97-2003 (*.xls)|*.xls|Все файлы (*.*)|*.*";
+            openDialog.Filter = "Excel (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|Все файлы (*.*)|*.*";
             openDialog.FilterIndex = 1;
             openDialog.RestoreDirectory = true;
 
@@ -97,12 +93,7 @@ namespace TableReader.Win
 
         private void bgPriceWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.ProgressPercentage <= 100)
-            {
-                formDialog.SetWorkBookTitle(currentFileName);
-                formDialog.SetSheetCaption(currentPageNum, totalPages);
-                ((ProgressBar)formDialog.Controls["progressBar"]).Value = e.ProgressPercentage;
-            }
+            formDialog.SetProgressParams(e.ProgressPercentage);
         }
 
         private void bgPriceWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -113,27 +104,26 @@ namespace TableReader.Win
 
         private void ParseSingleFile(string fileName)
         {
-            Book incomeBook = Book.Open(fileName);
-            currentFileName = incomeBook.Name;
-            totalPages = incomeBook.Pages.Count;
-            currentPageNum = 0;
-            foreach (string key in incomeBook.Pages.Keys)
+            formDialog.CurrentBook = Book.Open(fileName);
+            formDialog.PageNum = 0;
+            foreach (string key in formDialog.CurrentBook.Pages.Keys)
             {
                 TableParserBase tableParser = TableReaderApp.SelectParserObjectFromAvailableModules
-                    (incomeBook.Pages[key], Application.StartupPath + "\\Modules");
+                    (formDialog.CurrentBook.Pages[key], Application.StartupPath + "\\Modules");
                 if (tableParser != null)
                 {
                     tableParser.SetProgressValue += new TableParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);
-                    currentPageNum++;
+                    formDialog.CurrentPage = formDialog.CurrentBook.Pages[key];
+                    formDialog.PageNum++;
                     Book resultBook = tableParser.CreateBookForResultData();
-                    tableParser.DoParsingOfIncomingPage(incomeBook.Pages[key], resultBook, TableReaderApp.WorkerArgs);
+                    tableParser.DoParsingOfIncomingPage(formDialog.CurrentBook.Pages[key], resultBook, TableReaderApp.WorkerArgs);
                     if (!TableReaderApp.WorkerArgs.Cancel)
                     {
                         foreach (string num in resultBook.Pages.Keys)
                             resultBook.Pages[num].AutoFitColumns();
 
-                        string resultPath = String.Format("{0}\\Result\\res-{1}-{2}.xls",
-                            Application.StartupPath, incomeBook.Name, incomeBook.Pages[key].Name);
+                        string resultPath = String.Format("{0}\\Result\\res-{1}-{2}.xlsx",
+                            Application.StartupPath, formDialog.CurrentBook.Name, formDialog.CurrentBook.Pages[key].Name);
                         if (File.Exists(resultPath))
                             File.Delete(resultPath);
                         resultBook.Save(resultPath);
@@ -141,7 +131,7 @@ namespace TableReader.Win
                     resultBook.Close();
                 }
             }
-            incomeBook.Close();
+            formDialog.CurrentBook.Close();
         }
 
         private void ParseDirectory(string sDirName)

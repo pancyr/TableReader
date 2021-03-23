@@ -7,6 +7,7 @@ namespace GasOilService
 {
     public class GasOilServiceParser : TableParserBase
     {
+        private const string CATEGORY_PAGE_NAME = "Category";
         private const string PRODUCTS_PAGE_NAME = "Products";
         private const string ATTRIBUTES_PAGE_NAME = "Attributes";
 
