@@ -115,20 +115,12 @@ namespace TableReader.Win
                     tableParser.SetProgressValue += new TableParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);
                     formDialog.CurrentPage = formDialog.CurrentBook.Pages[key];
                     formDialog.PageNum++;
-                    Book resultBook = tableParser.CreateBookForResultData();
-                    tableParser.DoParsingOfIncomingPage(formDialog.CurrentBook.Pages[key], resultBook, TableReaderApp.WorkerArgs);
-                    if (!TableReaderApp.WorkerArgs.Cancel)
-                    {
-                        foreach (string num in resultBook.Pages.Keys)
-                            resultBook.Pages[num].AutoFitColumns();
-
-                        string resultPath = String.Format("{0}\\Result\\res-{1}-{2}.xlsx",
-                            Application.StartupPath, formDialog.CurrentBook.Name, formDialog.CurrentBook.Pages[key].Name);
-                        if (File.Exists(resultPath))
-                            File.Delete(resultPath);
-                        resultBook.Save(resultPath);
-                    }
-                    resultBook.Close();
+                    string templateFile = (txtResultFile.Text.Length > 0) ? txtResultFile.Text : null;
+                    ParsingArgs args = new ParsingArgs(templateFile,
+                        Application.StartupPath + "\\Result", TableReaderApp.WorkerArgs, 14, 2);
+                    tableParser.DoParsingWithDivisionVolumesOfIncomingPage
+                        (formDialog.CurrentBook.Name, formDialog.CurrentBook.Pages[key], args);
+                    
                 }
             }
             formDialog.CurrentBook.Close();
@@ -158,5 +150,18 @@ namespace TableReader.Win
         }
 
         #endregion
+
+        private void cmdBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+
+            openDialog.InitialDirectory = Application.StartupPath;
+            openDialog.Filter = "Excel (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|Все файлы (*.*)|*.*";
+            openDialog.FilterIndex = 1;
+            openDialog.RestoreDirectory = true;
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+                txtResultFile.Text = openDialog.FileName;
+        }
     }
 }

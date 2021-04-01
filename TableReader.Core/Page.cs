@@ -33,7 +33,7 @@ namespace TableReader.Core
 
         public readonly Styles Styles;
 
-        public virtual void InitSheetParams()
+        public virtual void Measure()
         {
             this.TotalRows = _excelSheet.UsedRange.Rows.Count;
             this.TotalColumns = _excelSheet.UsedRange.Columns.Count;

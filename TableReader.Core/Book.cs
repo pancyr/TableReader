@@ -81,6 +81,8 @@ namespace TableReader.Core
             return result;
         }
 
+        public bool HasPage(string pageName) => this.Pages.ContainsKey(pageName);
+
         public void Save(string savePath)
         {
             _excelBook.Sheets[1].Select();

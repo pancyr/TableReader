@@ -16,7 +16,7 @@ namespace MetService
 
         private string groupTitle;
 
-        public override Book CreateBookForResultData()
+        public override Book CreateBookForResultData(string filePath = null)
         {
             Dictionary<string, Dictionary<int, string>> titles =
                 new Dictionary<string, Dictionary<int, string>>();
@@ -31,7 +31,7 @@ namespace MetService
             {
                 [1] = "На английском"
             });
-            return CreateBookForResultData(titles);
+            return CreateBookForResultData(titles, filePath);
         }
 
         protected override bool PositionToFirstRow(Page page)

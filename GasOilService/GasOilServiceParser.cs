@@ -17,7 +17,7 @@ namespace GasOilService
 
         private int productID;
 
-        public override Book CreateBookForResultData()
+        public override Book CreateBookForResultData(string filePath = null)
         {
             Dictionary<string, Dictionary<int, string>> titles =
                 new Dictionary<string, Dictionary<int, string>>();
@@ -44,7 +44,7 @@ namespace GasOilService
                 [4] = "attribute_name",
                 [5] = "text"
             });
-            return CreateBookForResultData(titles);
+            return CreateBookForResultData(titles, filePath);
         }
 
         protected override bool PositionToFirstRow(Page page)

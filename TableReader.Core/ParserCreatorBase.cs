@@ -10,7 +10,7 @@ namespace TableReader.Core
 
         public virtual bool DetectIncomingPageForParserClass(Page page)
         {
-            page.InitSheetParams();
+            page.Measure();
             bool isFound;
 
             Object[] attrs = this.GetType().GetCustomAttributes(typeof(TableColumnAttribute), false);

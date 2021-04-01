@@ -48,6 +48,7 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="DecimalProperty.cs" />
+    <Compile Include="ParsingArgs.cs" />
     <Compile Include="PropertyBase.cs" />
     <Compile Include="StringProperty.cs" />
     <Compile Include="TableReaderApp.cs" />
