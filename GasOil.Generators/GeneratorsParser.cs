@@ -88,10 +88,11 @@ namespace GasOil.Generators
 
         protected override bool PositionToFirstRow(Page page)
         {
-            page.CurrentRow = 1;
+            /*page.CurrentRow = 1;
             while (page.ReadValue(3).Length > 0)
                 page.CurrentRow++;
-            page.TotalRows = page.CurrentRow - 1;
+            page.TotalRows = page.CurrentRow - 1;*/
+            page.TotalRows = 11;
             page.CurrentRow = 2;
             return !page.IsEndPosition();
         }
@@ -125,7 +126,8 @@ namespace GasOil.Generators
                 List<Dictionary<int, string>> dataAttributes = new List<Dictionary<int, string>>();
 
                 // заполняем массив данных для страницы Products
-                dataCommon.Add(1, page.ReadText(1));
+                int productID = Int32.Parse(page.ReadText(1)) + 600;
+                dataCommon.Add(1, productID.ToString());
                 dataCommon.Add(2, page.ReadText(3));
                 dataCommon.Add(13, textName);
 
@@ -141,20 +143,37 @@ namespace GasOil.Generators
 
                 dataCommon.Add(4, MAIN_CATEGORY);
                 dataCommon.Add(12, "1000");
-                dataCommon.Add(14, page.ReadText(5));
-                dataCommon.Add(15, page.ReadText(23));
+
+                string manuf = page.ReadText(5);
+                string model = page.ReadText(23);
+
+                if (model.StartsWith(manuf))
+                    model = model.Substring(manuf.Length, model.Length - manuf.Length).Trim();
+
+                dataCommon.Add(14, manuf);
+                dataCommon.Add(15, model);
                 dataCommon.Add(16, "yes");
-                dataCommon.Add(17, page.ReadText(21));
+
+                Double price = Double.Parse(page.ReadText(21)) * 1.1;
+                dataCommon.Add(17, ((int)price).ToString());
 
                 
                 // вес и ед. измер
                 dataCommon.Add(22, page.ReadText(20));
                 dataCommon.Add(23, "кг");
-                
+
                 //габариты
-                /*dataCommon.Add(24, GetRegValue(page.ReadText(20), @"\d+"));
-                dataCommon.Add(25, GetRegValue(page.ReadText(21), @"\d+"));
-                dataCommon.Add(26, GetRegValue(page.ReadText(22), @"\d+"));*/
+                string metrage = page.ReadText(19);
+                Regex m_reg = new Regex(@"\d+");
+                MatchCollection matches = m_reg.Matches(metrage);
+
+                if (matches.Count == 3)
+                {
+                    dataCommon.Add(24, matches[0].ToString());
+                    dataCommon.Add(25, matches[1].ToString());
+                    dataCommon.Add(26, matches[2].ToString());
+                    dataCommon.Add(27, "см");
+                }
 
                 //dataCommon.Add(27, GetRegValue(page.ReadText(22), @"\D+"));
                 //dataCommon.Add(28, "true");
@@ -162,7 +181,6 @@ namespace GasOil.Generators
                 dataCommon.Add(33, page.ReadText(22));
 
                 // заполнение страницы атрибутов
-                int productID = Int32.Parse(page.ReadText(1));
                 List<PropertyBase> properties = GetListOfAttributes();
                 foreach (PropertyBase prop in properties)
                 {
@@ -196,7 +214,7 @@ namespace GasOil.Generators
             result.Add(new StringProperty("Напряжение (в)", group, 8));
             result.Add(new StringProperty("Исполнение", group, 9));
             result.Add(new StringProperty("Объём бака (л)", group, 10));
-            result.Add(new StringProperty("Марка двигателя", group, 11));
+            result.Add(new StringProperty("Производитель двигателя", group, 11));
             result.Add(new StringProperty("Модель двигателя", group, 12));
 
             result.Add(new StringProperty("Топливо", group, 13));

@@ -371,6 +371,7 @@ namespace TableReader.Core
             foreach (int key in values.Keys)
             {
                 OutputCell(CurrentRow, key, values[key]);
+                _excelSheet.Cells[CurrentRow, key].EntireColumn.NumberFormat = "@";
                 if (bold) MakeCellBold(CurrentRow, key);
                 if (italic) MakeCellItalic(CurrentRow, key);
                 if (underline) MakeCellUnderline(CurrentRow, key);

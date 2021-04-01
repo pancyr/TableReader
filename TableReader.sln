@@ -13,6 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasOilService", "GasOilServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasOil.Generators", "GasOil.Generators\GasOil.Generators.csproj", "{9952C092-FC08-47A7-B4C2-2BFF03161E64}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Примеры исходных таблиц", "Примеры исходных таблиц", "{510DA0C6-4FDC-4589-894E-12F39A2C06C8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\10 - Спецтехника\CergMet\Листы\profnastil.xls = ..\..\10 - Спецтехника\CergMet\Листы\profnastil.xls
+		..\..\10 - Спецтехника\CergMet\Листы\Ареал.xls = ..\..\10 - Спецтехника\CergMet\Листы\Ареал.xls
+		..\..\10 - Спецтехника\CergMet\Листы\ВестМеркет.xls = ..\..\10 - Спецтехника\CergMet\Листы\ВестМеркет.xls
+		..\..\10 - Спецтехника\CergMet\Листы\Дипос.xls = ..\..\10 - Спецтехника\CergMet\Листы\Дипос.xls
+		..\..\10 - Спецтехника\CergMet\Листы\Металлсервис.xls = ..\..\10 - Спецтехника\CergMet\Листы\Металлсервис.xls
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Примеры обработки", "Примеры обработки", "{76ED2651-6B6A-49F7-A531-4CF1F08FC2FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
