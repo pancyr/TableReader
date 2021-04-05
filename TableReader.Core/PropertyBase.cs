@@ -40,9 +40,8 @@ namespace TableReader.Core
         {
             Dictionary<int, string> values = new Dictionary<int, string>();
             values.Add(1, productID.ToString());
-            values.Add(2, "1");
-            values.Add(3, Group);
-            values.Add(4, Name);
+            values.Add(2, Group);
+            values.Add(3, Name);
             values.Add(5, ParseVaue(Value));
             return values;
         }

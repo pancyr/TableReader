@@ -9,7 +9,7 @@ namespace GasOil.Generators
     {
         //private const string CATEGORY_PAGE_NAME = "Category";
         private const string PRODUCTS_PAGE_NAME = "Products";
-        private const string ATTRIBUTES_PAGE_NAME = "Attributes";
+        private const string ATTRIBUTES_PAGE_NAME = "ProductAttributes";
 
         private const string MAIN_CATEGORY = "272";
         private const string DISEL_CATEGORY = "272,273";
@@ -30,9 +30,10 @@ namespace GasOil.Generators
             titles.Add(PRODUCTS_PAGE_NAME, new Dictionary<int, string>
             {
                 [1] = "product_id",
-                [2] = "name",
-                [3] = "categories",
-                [4] = "main_categories",
+                [2] = "name(en-gb)",
+                [3] = "name(ru-ru)",
+                [4] = "categories",
+                //[4] = "main_categories",
                 [5] = "sku",
                 [6] = "upc",
                 [7] = "ean",
@@ -55,44 +56,47 @@ namespace GasOil.Generators
                 [24] = "length",
                 [25] = "width",
                 [26] = "height",
-                [27] = "length unit",
-                [28] = "status enabled",
+                [27] = "length_unit",
+                [28] = "status",
                 [29] = "tax_class_id",
-                [30] = "viewed",
-                [31] = "language_id",
-                [32] = "seo_keyword",
-                [33] = "description",
-                [34] = "meta_description",
-                [35] = "meta_keywords",
-                [36] = "seo_title",
-                [37] = "seo_h1",
+                //[30] = "viewed",
+                //[31] = "language_id",
+                //[32] = "seo_keyword",
+                [30] = "description (en-gb)",
+                [31] = "description (ru-ru)",
+                [32] = "meta_title (en-gb)",
+                [33] = "meta_title (ru-ru)",
+                [34] = "meta_description (en-gb)",
+                [35] = "meta_description (ru-ru)",
+                [36] = "meta_keywords (en-gb)",
+                [37] = "meta_keywords (ru-ru)",
                 [38] = "stock_status_id",
                 [39] = "store_ids",
                 [40] = "layout",
                 [41] = "related_ids",
-                [42] = "tags",
-                [43] = "sort_order",
-                [44] = "subtract",
-                [45] = "minimum"
+                [42] = "tags (en-gb)",
+                [43] = "tags (ru-ru)",
+                [44] = "sort_order",
+                [45] = "subtract",
+                [46] = "minimum"
             });
             titles.Add(ATTRIBUTES_PAGE_NAME, new Dictionary<int, string>
             {
                 [1] = "product_id",
-                [2] = "language_id",
-                [3] = "attribute_group",
-                [4] = "attribute_name",
-                [5] = "text"
+                [2] = "attribute_group",
+                [3] = "attribute",
+                [4] = "text (en-gb)",
+                [5] = "text (ru-ru)"
             });
             return CreateBookForResultData(titles, filePath);
         }
 
         protected override bool PositionToFirstRow(Page page)
         {
-            /*page.CurrentRow = 1;
+            page.CurrentRow = 1;
             while (page.ReadValue(3).Length > 0)
                 page.CurrentRow++;
-            page.TotalRows = page.CurrentRow - 1;*/
-            page.TotalRows = 51;
+            page.TotalRows = page.CurrentRow - 1;
             page.CurrentRow = 2;
             return !page.IsEndPosition();
         }
@@ -128,18 +132,19 @@ namespace GasOil.Generators
                 int productID = Int32.Parse(page.ReadText(1)) + 600;
                 dataCommon.Add(1, productID.ToString());
                 dataCommon.Add(2, textName);
+                dataCommon.Add(3, textName);
 
                 string categName = page.ReadText(2);
                 if (categName.ToLower().Contains("бензиновые генераторы"))
-                    dataCommon.Add(3, BENSIN_CATEGORY);
+                    dataCommon.Add(4, BENSIN_CATEGORY);
                 else if (categName.ToLower().Contains("газовые генераторы"))
-                    dataCommon.Add(3, GAZ_CATEGORY);
+                    dataCommon.Add(4, GAZ_CATEGORY);
                 else if (categName.ToLower().Contains("дизельные генераторы"))
-                    dataCommon.Add(3, DISEL_CATEGORY);
+                    dataCommon.Add(4, DISEL_CATEGORY);
                 else if (categName.ToLower().Contains("сварочные генераторы"))
-                    dataCommon.Add(3, SVAR_CATEGORY);
+                    dataCommon.Add(4, SVAR_CATEGORY);
 
-                dataCommon.Add(4, MAIN_CATEGORY);
+                //dataCommon.Add(4, MAIN_CATEGORY);
                 dataCommon.Add(12, "1000");
 
                 string manuf = page.ReadText(5);
@@ -154,19 +159,11 @@ namespace GasOil.Generators
                 /*if (model.StartsWith(manuf))
                     model = model.Substring(manuf.Length, model.Length - manuf.Length).Trim();*/
 
-                Double price;
-                bool tryPrice = Double.TryParse(page.ReadText(21), out price);
-                
-                if (tryPrice)
-                {
-                    price *= 1.2;
-                    dataCommon.Add(17, ((int)price).ToString());
-                }
-
+                dataCommon.Add(17, String.Format("{0:f0}", page.TryGetDoubleValue(21, 1.2)));
                 dataCommon.Add(18, "0");
 
                 // вес и ед. измер
-                dataCommon.Add(22, page.ReadText(20));
+                dataCommon.Add(22, String.Format("{0:f0}", page.TryGetDoubleValue(20)));
                 dataCommon.Add(23, "кг");
 
                 //габариты
@@ -182,27 +179,26 @@ namespace GasOil.Generators
                     dataCommon.Add(27, "см");
                 }
 
-                //dataCommon.Add(27, GetRegValue(page.ReadText(22), @"\D+"));
                 dataCommon.Add(28, "true");
-                dataCommon.Add(31, "1");
-                dataCommon.Add(39, "0");
-                dataCommon.Add(43, "1");
-                dataCommon.Add(44, "true");
-                dataCommon.Add(45, "1");
-                dataCommon.Add(32, Transliteration.Front(page.ReadText(3)).Replace(" ", "-"));
-                dataCommon.Add(33, page.ReadText(22));
-
-                // поле Meta_Description
-                dataCommon.Add(34, textName + " — купить от Газнефтесервис в Уфе. Гарантия до 5 лет. Сервис 24 часа в сутки.");
-
-                // поле Meta_KeyWords
-                dataCommon.Add(35, String.Format("{0}, {1}, купить в Уфе", textName, categName));
+                dataCommon.Add(31, page.ReadText(22));
 
                 // поле Seo_Title
-                dataCommon.Add(36, textName);
+                dataCommon.Add(33, textName);
+
+                // поле Meta_Description
+                dataCommon.Add(35, textName + " — купить от Газнефтесервис в Уфе. Гарантия до 5 лет. Сервис 24 часа в сутки.");
+
+                // поле Meta_KeyWords
+                dataCommon.Add(37, String.Format("{0}, {1}, купить в Уфе", textName, categName));
+                dataCommon.Add(38, "5");
+                dataCommon.Add(39, "0");
 
                 // поле Seo_H1
-                dataCommon.Add(37, String.Format("{0} купить в Уфе от Газнефтесервис по лучшей цене c гарантией", textName));
+                dataCommon.Add(43, String.Format("{0} купить в Уфе от Газнефтесервис по лучшей цене c гарантией", textName));
+
+                dataCommon.Add(44, "1");
+                dataCommon.Add(45, "true");
+                dataCommon.Add(46, "1");
 
                 // заполнение страницы атрибутов
                 List<PropertyBase> properties = GetListOfAttributes();
@@ -244,7 +240,7 @@ namespace GasOil.Generators
             result.Add(new StringProperty("Модель двигателя", group, 12));
             result.Add(new StringProperty("Топливо", group, 13));
             result.Add(new StringProperty("Норма расхода", group, 14));
-            result.Add(new StringProperty("Система охлаждния", group, 16));
+            result.Add(new StringProperty("Система охлаждения", group, 16));
             result.Add(new StringProperty("Уровень шума (дБ)", group, 17));
 
             return result;

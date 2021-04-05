@@ -80,9 +80,21 @@ namespace TableReader.Core
 
         public string ReadValue(int column) => ReadValue(this.CurrentRow, column);
         public string ReadText(int column) => ReadText(this.CurrentRow, column);
+        public Double TryGetDoubleValue(int column, double rate = 0) => TryGetDoubleValue(this.CurrentRow, column, rate);
 
         public string ReadValue(int row, int column) => GetCell(row, column).Value2 == null ? String.Empty : GetCell(row, column).Value2.ToString().Trim();
         public string ReadText(int row, int column) => GetCell(row, column).Text == null ? String.Empty : GetCell(row, column).Text.ToString().Trim();
+
+        public Double TryGetDoubleValue(int row, int column, double rate)
+        {
+            Double result;
+            Double.TryParse(ReadValue(row, column), out result);
+
+            if (result != 0 && rate != 0)
+                result *= rate;
+
+            return result;
+        }
 
         public bool IsHiddenRow(int num)
         {
@@ -371,7 +383,7 @@ namespace TableReader.Core
             foreach (int key in values.Keys)
             {
                 OutputCell(CurrentRow, key, values[key]);
-                _excelSheet.Cells[CurrentRow, key].EntireColumn.NumberFormat = "@";
+                //_excelSheet.Cells[CurrentRow, key].EntireColumn.NumberFormat = "@";
                 if (bold) MakeCellBold(CurrentRow, key);
                 if (italic) MakeCellItalic(CurrentRow, key);
                 if (underline) MakeCellUnderline(CurrentRow, key);

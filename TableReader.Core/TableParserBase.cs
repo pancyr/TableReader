@@ -136,8 +136,8 @@ namespace TableReader.Core
 
         private void SaveCurrentBook(Book book, string basePath, string bookName, string pageName, int num = 0, int digit = 3)
         {
-            foreach (string key in book.Pages.Keys)
-                book.Pages[key].AutoFitColumns();
+            /*foreach (string key in book.Pages.Keys)
+                book.Pages[key].AutoFitColumns();*/
 
             if (!basePath.EndsWith("\\"))
                 basePath += "\\";

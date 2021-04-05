@@ -117,7 +117,7 @@ namespace TableReader.Win
                     formDialog.PageNum++;
                     string templateFile = (txtResultFile.Text.Length > 0) ? txtResultFile.Text : null;
                     ParsingArgs args = new ParsingArgs(templateFile,
-                        Application.StartupPath + "\\Result", TableReaderApp.WorkerArgs, 14, 2);
+                        Application.StartupPath + "\\Result", TableReaderApp.WorkerArgs, 500, 2);
                     tableParser.DoParsingWithDivisionVolumesOfIncomingPage
                         (formDialog.CurrentBook.Name, formDialog.CurrentBook.Pages[key], args);
                     
